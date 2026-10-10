@@ -1,6 +1,6 @@
 # Submission evidence — SentinelFix
 
-Mirror of [neathack/docs/EVIDENCE.md](https://github.com/adindamochamad/neathack) — **fill before X quote post**.
+Fill **before** X quote post. Keep in sync with your local neatHack pack `docs/EVIDENCE.md`.
 
 ## neatlogs
 
