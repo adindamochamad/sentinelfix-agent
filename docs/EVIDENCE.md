@@ -21,8 +21,8 @@ Ganti `TODO` dengan link nyata. Simpan salinan di repo lomba `docs/SUBMISSION_EV
 
 | Bukti | URL / path |
 | --- | --- |
-| Checkpoint PR / commit | CLI **0.11.4** terpasang di `~/.local/bin`. `entire enable --agent cursor` di repo ini. Daftar checkpoint diisi setelah commit. |
-| entire-graph output | TODO — `entire checkpoint list` masih 0 sebelum commit sesi ini |
+| Checkpoint PR / commit | CLI **0.11.4** + `entire enable --agent cursor`. Dua commit `ffb5395` dan `a61e724` **tidak** jadi checkpoint: `entire session current` tidak punya state karena hook dipasang di tengah sesi. `entire checkpoint list` = 0. |
+| entire-graph output | TODO — checkpoint belum terbentuk |
 
 ## cfo.ai (bagian dari 25%)
 

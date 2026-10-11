@@ -14,8 +14,8 @@ Fill **before** X quote post. Keep in sync with your local neatHack pack `docs/E
 
 | | |
 | --- | --- |
-| Checkpoint after failed patch | TODO |
-| Checkpoint after success | TODO |
+| Checkpoint after failed patch | Belum — tidak ada patch gagal, dan Entire belum merekam sesi |
+| Checkpoint after success | Belum — `entire checkpoint list` = 0 setelah commit 11 Okt |
 | entire-graph | `entire-graph` output path TODO |
 
 ## cfo.ai
