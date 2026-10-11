@@ -10,7 +10,7 @@ Entri **terbaru di atas**. Agent baca bagian atas dulu.
 
 **Run 17:54 WIB:** curl 503 → agent (`check_health`, baca `app.py`, baca `.env`, `set_demo_env`, `check_health` 200) dalam ~11 dtk. Prompt tidak memuat `SENTINELFIX_HEALTH_TOKEN=ok` (log `prompt_names_token_ok: false`). Tidak ada `write_file`. Hipotesis recovery “patch kode lalu gagal” **ditolak** oleh log tool.
 
-**Selesai:** Entire CLI 0.11.4 + `entire enable --agent cursor`. Server demo di-restart di port 8765.
+**Selesai:** Entire CLI 0.11.4 + `entire enable --agent cursor`. Server demo di-restart di port 8765. Push `f7bfa6b..76cb854` ke `origin/main`. Checkpoint list masih 0.
 
 **Belum:** URL trace (dashboard login), Ari (cfo.ai di browser masih halaman publik Sign in), dua post #neatHack (plugin X tidak punya tool buat tweet; draft di `docs/BUILDING_IN_PUBLIC.md`), video, quote post (jendela Senin 20:30 WIB).
 
