@@ -21,24 +21,39 @@ def write_file(path: str, content: str) -> str:
 
 
 def run_shell(command: str, cwd: str | None = None) -> str:
-    result = subprocess.run(
-        command,
-        shell=True,
-        cwd=cwd,
-        capture_output=True,
-        text=True,
-        timeout=120,
-    )
+    lowered = command.lower()
+    if "app.py" in lowered or "serve_forever" in lowered:
+        return (
+            "refused: demo HTTP server must stay in the user's terminal. "
+            "After set_demo_env, call check_health — /health reloads demo_service/.env."
+        )
+    try:
+        result = subprocess.run(
+            command,
+            shell=True,
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            timeout=20,
+        )
+    except subprocess.TimeoutExpired as e:
+        return f"timeout after {e.timeout}s: {command[:200]}"
     out = (result.stdout or "") + (result.stderr or "")
     return f"exit={result.returncode}\n{out[-8000:]}"
 
 
 def check_health(base_url: str = "http://127.0.0.1:8765") -> str:
+    url = (base_url or "").strip() or "http://127.0.0.1:8765"
+    if "8765" not in url:
+        url = "http://127.0.0.1:8765"
+    url = url.rstrip("/")
+    if not url.endswith("/health"):
+        url = f"{url}/health"
     try:
-        r = httpx.get(f"{base_url}/health", timeout=5.0)
-        return f"status={r.status_code} body={r.text.strip()}"
+        r = httpx.get(url, timeout=5.0)
+        return f"status={r.status_code} body={r.text.strip()} url={url}"
     except Exception as e:
-        return f"error={e!r}"
+        return f"error={e!r} url={url}"
 
 
 def set_demo_env(key: str, value: str, demo_dir: str) -> str:
@@ -110,7 +125,7 @@ TOOL_SCHEMA = [
         "type": "function",
         "function": {
             "name": "set_demo_env",
-            "description": "Set KEY=value in demo_service/.env",
+            "description": "Set KEY=value in demo_service/.env. The running server reads this on each /health — do not restart app.py.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -126,16 +141,19 @@ TOOL_SCHEMA = [
 
 
 def dispatch(name: str, args: dict, demo_dir: str) -> str:
-    if name == "set_demo_env":
-        args = {**args, "demo_dir": demo_dir}
-    if name == "read_file":
-        return read_file(**args)
-    if name == "write_file":
-        return write_file(**args)
-    if name == "run_shell":
-        return run_shell(**args)
-    if name == "check_health":
-        return check_health(**args)
-    if name == "set_demo_env":
-        return set_demo_env(**args)
-    return f"unknown tool {name}"
+    try:
+        if name == "set_demo_env":
+            args = {**args, "demo_dir": demo_dir}
+        if name == "read_file":
+            return read_file(**args)
+        if name == "write_file":
+            return write_file(**args)
+        if name == "run_shell":
+            return run_shell(**args)
+        if name == "check_health":
+            return check_health(**args)
+        if name == "set_demo_env":
+            return set_demo_env(**args)
+        return f"unknown tool {name}"
+    except Exception as e:
+        return f"tool_error {type(e).__name__}: {e}"

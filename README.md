@@ -1,35 +1,30 @@
 # SentinelFix — neatHack 2026
 
-Agent that **reproduces → diagnoses → patches → verifies** until a demo service is healthy, with **recovery** when the first fix is wrong.
+Satu folder: **konteks lomba + kode agent**. Buka **`/Users/mac/Development/neathack`** di Cursor.
 
-**Context pack (PRD, submit):** [neathack](https://github.com/adindamochamad/neathack) _(private/local — not required for judges; this repo is the submission)._
+Agent **reproduce → diagnose → patch → verify** sampai demo service sehat, dengan recovery jika patch pertama salah.
 
-## Quick start
+GitHub (submit): https://github.com/adindamochamad/sentinelfix-agent
+
+## Quick start (dari folder ini)
 
 ```bash
-python -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # NEATLOGS_API_KEY, model key (LiteLLM/OpenAI-compatible)
-
-# Broken demo (health fails until fixed)
-cd demo_service && python app.py
-
-# Agent (from repo root)
+cp .env.example .env   # isi NEATLOGS_API_KEY + model key
+# terminal 1
+python demo_service/app.py
+# terminal 2
 python -m agent.run --goal "Make demo_service healthy" --demo-dir demo_service
 ```
 
-## Partners (submission evidence)
+## Peta folder
 
-| Tool | Where in this repo |
+| Path | Isi |
 | --- | --- |
-| neatlogs | `agent/run.py` — `neatlogs.init()`; compare traces before/after |
-| Entire | [docs/ENTIRE.md](docs/ENTIRE.md) — checkpoint each patch attempt |
-| cfo.ai | [docs/CFO_PLAN.md](docs/CFO_PLAN.md) — export link in `docs/SUBMISSION_EVIDENCE.md` |
+| `agent/` | Loop agent + neatlogs |
+| `demo_service/` | Service rusak (`/health` 503 sampai diperbaiki) |
+| `PRD.md` `CONTEXT.md` | Brief + PRD |
+| `docs/` | DoD, evidence, submit, Entire, cfo.ai |
 
-## Demo URL
-
-TODO: deploy or `ngrok` for submit — add link to `docs/SUBMISSION_EVIDENCE.md`.
-
-## License
-
-MIT
+Jangan commit `.env`.
